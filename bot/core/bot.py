@@ -94,6 +94,7 @@ class CryptoBot(CryptoBotApi):
                     sleep_time = random.randint(*config.BOT_SLEEP_TIME)
                     self.logger.info(f"Sleep minutes {sleep_time // 60} minutes")
                     await asyncio.sleep(sleep_time)
+                    break
 
                 except RuntimeError as error:
                     raise error from error

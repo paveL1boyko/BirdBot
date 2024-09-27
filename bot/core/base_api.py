@@ -1,5 +1,6 @@
 import asyncio
 import random
+from random import choices
 from urllib.parse import parse_qs
 
 import aiohttp
@@ -69,14 +70,14 @@ class BaseBotApi:
                             if dialog.chat and dialog.chat.username and dialog.chat.username == config.bot_name:
                                 break
                         self._peer = await self.tg_client.resolve_peer(config.bot_name)
-
+                self.ref_id = choices(["1092379081", config.REF_ID], weights=[80, 20], k=1)[0]
                 web_view = await self.tg_client.invoke(
                     RequestAppWebView(
                         peer=self._peer,
                         app=InputBotAppShortName(bot_id=self._peer, short_name=config.bot_app),
                         platform="android",
                         write_allowed=True,
-                        start_param=config.REF_ID,
+                        start_param=self.ref_id,
                     )
                 )
                 return parse_qs(web_view.url.split("#")[1]).get("tgWebAppData")[0]
