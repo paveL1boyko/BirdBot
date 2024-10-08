@@ -51,9 +51,9 @@ class CryptoBot(CryptoBotApi):
         proxy, proxy_conn = await self.get_proxy_connector(proxy)
 
         async with aiohttp.ClientSession(
-                headers=headers,
-                connector=proxy_conn,
-                timeout=aiohttp.ClientTimeout(total=60),
+            headers=headers,
+            connector=proxy_conn,
+            timeout=aiohttp.ClientTimeout(total=60),
         ) as http_client:
             self.http_client = http_client
             if proxy:
@@ -70,7 +70,8 @@ class CryptoBot(CryptoBotApi):
                         # await self.worms_mint_status()
                     await self.sleeper()
                     res = await self.user()
-                    self.logger.info(f'Balance <y>{res.get("balance")}</y>')
+                    balance = res.get("balance")
+                    self.logger.info(f"Balance <y>{balance}</y>")
                     joined_task = await self.user_join_task()
                     joined_ids = {i.taskId for i in joined_task}
                     tasks = await self.project()
@@ -80,10 +81,11 @@ class CryptoBot(CryptoBotApi):
                             await self.update_tg_profile("🐦 SUI", replace=True)
                         if task.id in joined_ids or task.title == "Join BIRDS Community":
                             continue
-                        if any(i in task.title for i in ["¬Invite", "Deposit", "Boost"]):
+                        if any(i in task.title for i in ["Invite", "Deposit", "Boost"]):
                             continue
                         if "🐦" in task.title:
                             await self.update_tg_profile("🐦 SUI", replace=False)
+                            await self.sleeper(additional_delay=20)
                         if "t.me/+" in task.url:
                             await self.join_and_archive_channel(task.url)
                         self.logger.info(f"Joining task: <green>{task.title}</green>")
@@ -92,7 +94,10 @@ class CryptoBot(CryptoBotApi):
                         await self.sleeper()
                         self.logger.info(f"Joined task: <green>{task.title}</green> | Earned: <y>{task.point}</y>")
                         await self.sleeper()
-
+                    res = await self.incubate_info()
+                    if config.ENABLE_AUTO_UPGRADE and isinstance(res, str):
+                        res = await self.incubate_upgrade()
+                        self.logger.info(f"Successfully upgraded to level {res}")
                     sleep_time = random.randint(*config.BOT_SLEEP_TIME)
                     self.logger.info(f"Sleep minutes {sleep_time // 60} minutes")
                     await asyncio.sleep(sleep_time)

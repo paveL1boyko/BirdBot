@@ -22,12 +22,13 @@ class BaseBotSettings(BaseSettings):
     BOT_SLEEP_TIME: list[int] = [30000, 35000]
 
     REF_ID: str = "1092379081"
-    base_url: str = "https://birdx-api.birds.dog"
+    base_url: str = "https://birdx-api2.birds.dog"
     bot_name: str = "birdx2_bot"
     bot_app: str = "birdx"
 
 
-class Settings(BaseBotSettings): ...
+class Settings(BaseBotSettings):
+    ENABLE_AUTO_UPGRADE: bool = True
 
 
 config = Settings()

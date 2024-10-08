@@ -70,6 +70,16 @@ class CryptoBotApi(BaseBotApi):
     async def project_join_task(self, *, response_json: dict, json_body: dict) -> dict:
         return response_json
 
+    @error_handler()
+    @handle_request("/minigame/incubate/info", method="GET", raise_for_status=False)
+    async def incubate_info(self, *, response_json: dict) -> dict | str:
+        return response_json
+
+    @error_handler()
+    @handle_request("/minigame/incubate/upgrade", method="GET")
+    async def incubate_upgrade(self, *, response_json: dict) -> dict:
+        return response_json
+
     @cached(ttl=2 * 60 * 60, cache=Cache.MEMORY)
     @error_handler()
     @handle_request(
