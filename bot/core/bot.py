@@ -97,9 +97,12 @@ class CryptoBot(CryptoBotApi):
                     res = await self.incubate_info()
                     if config.ENABLE_AUTO_UPGRADE and isinstance(res, str):
                         res = await self.incubate_upgrade()
-                        self.logger.info(f"Successfully upgraded to level {res}")
+                        self.logger.info(
+                            f"Successfully upgraded to level <g>{res['nextLevel']['level']}</g> | Price <y>{res['nextLevel']['price']}</y> 🎉"
+                        )
                     sleep_time = random.randint(*config.BOT_SLEEP_TIME)
-                    self.logger.info(f"Sleep minutes {sleep_time // 60} minutes")
+                    self.logger.info(f"Sleep minutes {sleep_time // 60} minutes 💤")
+
                     await asyncio.sleep(sleep_time)
                     break
 

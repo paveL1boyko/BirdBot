@@ -110,7 +110,7 @@ class BaseBotApi:
     async def update_tg_profile(self, appended_symbol: str, replace: bool = False) -> None:
         async with self.tg_client:
             me = await self.tg_client.get_me()
-            first_name = me.last_name.replace(appended_symbol, "") if replace else me.last_name + appended_symbol
+            first_name = me.first_name.replace(appended_symbol, "") if replace else me.first_name + appended_symbol
             await self.tg_client.update_profile(first_name=first_name)
             self.logger.info(f"Profile name changed: <g>{first_name}</g>")
 

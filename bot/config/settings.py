@@ -14,7 +14,7 @@ class BaseBotSettings(BaseSettings):
     SLEEP_BETWEEN_START: list[int] = [10, 20]
     SESSION_AC_DELAY: int = 3
     ERRORS_BEFORE_STOP: int = 5
-    USE_PROXY_FROM_FILE: bool = True
+    USE_PROXY_FROM_FILE: bool = False
     ADD_LOCAL_MACHINE_AS_IP: bool = False
 
     RANDOM_SLEEP_TIME: int = 8
