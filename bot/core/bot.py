@@ -78,7 +78,8 @@ class CryptoBot(CryptoBotApi):
 
                     for task in tasks:
                         if "🐦" in task.title:
-                            await self.update_tg_profile("🐦 SUI", replace=True)
+                            continue
+                            # await self.update_tg_profile("🐦 SUI", replace=True)
                         if task.id in joined_ids or task.title == "Join BIRDS Community":
                             continue
                         if any(i in task.title for i in ["Invite", "Deposit", "Boost"]):
