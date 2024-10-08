@@ -51,9 +51,9 @@ class CryptoBot(CryptoBotApi):
         proxy, proxy_conn = await self.get_proxy_connector(proxy)
 
         async with aiohttp.ClientSession(
-            headers=headers,
-            connector=proxy_conn,
-            timeout=aiohttp.ClientTimeout(total=60),
+                headers=headers,
+                connector=proxy_conn,
+                timeout=aiohttp.ClientTimeout(total=60),
         ) as http_client:
             self.http_client = http_client
             if proxy:
@@ -76,12 +76,14 @@ class CryptoBot(CryptoBotApi):
                     tasks = await self.project()
 
                     for task in tasks:
+                        if "🐦" in task.title:
+                            await self.update_tg_profile("🐦 SUI", replace=True)
                         if task.id in joined_ids or task.title == "Join BIRDS Community":
                             continue
-                        if any(i in task.title for i in ["Invite", "Deposit", "Boost"]):
+                        if any(i in task.title for i in ["¬Invite", "Deposit", "Boost"]):
                             continue
-                        # if '🐦' in task.title:
-                        # await self.update_tg_profile("🐦", replace=True)
+                        if "🐦" in task.title:
+                            await self.update_tg_profile("🐦 SUI", replace=False)
                         if "t.me/+" in task.url:
                             await self.join_and_archive_channel(task.url)
                         self.logger.info(f"Joining task: <green>{task.title}</green>")
